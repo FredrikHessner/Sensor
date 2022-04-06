@@ -13,7 +13,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 public class SensorActivity extends AppCompatActivity implements SensorEventListener {
     // device sensor manager
@@ -34,7 +33,7 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         //
         compassimage = findViewById(R.id.compass_image);
         // TextView that will display the degree
-        DegreeTV = findViewById(R.id.DegreeTV);
+        DegreeTV = findViewById(R.id.menu);
         // initialize your android device sensor capabilities
         SensorManage = (SensorManager) getSystemService(SENSOR_SERVICE);
         music = MediaPlayer.create(SensorActivity.this, R.raw.a3);

@@ -9,7 +9,7 @@
     tools:context=".SensorActivity">
 
     <TextView
-        android:id="@+id/DegreeTV"
+        android:id="@+id/menu"
         android:layout_width="149dp"
         android:layout_height="59dp"
         android:text="TextView"
