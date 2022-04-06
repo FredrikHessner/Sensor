@@ -1,5 +1,6 @@
 package com.example.sensor;
 
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,39 +10,35 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class SensorActivity extends AppCompatActivity implements SensorEventListener {
     // device sensor manager
     private SensorManager SensorManage;
-    // define the compass picture that will be use
+    private View view;
+    // define the compass picture that9 will be use
     private ImageView compassimage;
     // record the angle turned of the compass picture
     private float DegreeStart = 0f;
-    private Button audio_button;
     MediaPlayer music;
+    private String musicLocator;
     TextView DegreeTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compass);
+        view = findViewById(R.id.compassBackground);
         //
-        compassimage = (ImageView) findViewById(R.id.compass_image);
+        compassimage = findViewById(R.id.compass_image);
         // TextView that will display the degree
-        DegreeTV = (TextView) findViewById(R.id.DegreeTV);
+        DegreeTV = findViewById(R.id.DegreeTV);
         // initialize your android device sensor capabilities
         SensorManage = (SensorManager) getSystemService(SENSOR_SERVICE);
-        music = (MediaPlayer) MediaPlayer.create(SensorActivity.this, R.raw.a3);
-        audio_button = (Button) findViewById(R.id.audio_button);
-        audio_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                music.start();
-            }
-        });
+        music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
+        musicLocator = "";
     }
     @Override
     protected void onPause() {
@@ -59,8 +56,8 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     @Override
     public void onSensorChanged(SensorEvent event) {
         // get angle around the z-axis rotated
-        float degree = (float) Math.toDegrees(event.values[0]);
-        DegreeTV.setText("Heading: " + Float.toString(degree) + " degrees");
+        float degree = Math.round(event.values[0]);
+        DegreeTV.setText("Heading: " + degree + " degrees");
         // rotation animation - reverse turn degree degrees
         RotateAnimation ra = new RotateAnimation(
                 DegreeStart,
@@ -74,157 +71,91 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         // Start animation of compass image
         compassimage.startAnimation(ra);
         DegreeStart = -degree;
-        //tones(degree);
+        tones(degree);
+
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // not in use
     }
     public void tones(float degree) {
-        switch ((int) degree) {
-            case 10:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
-                music.start();
-                break;
-                /*
-            case 20:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b3);
-                music.start();
-                break;
-            case 30:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.c3);
-                music.start();
-                break;
-            case 40:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.d3);
-                music.start();
-                break;
-            case 50:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.e3);
-                music.start();
-                break;
-            case 60:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.f3);
-                music.start();
-                break;
-            case 70:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.g3);
-                music.start();
-                break;
-            case 80:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a4);
-                music.start();
-                break;
-            case 90:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b4);
-                music.start();
-            case 100:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
-                music.start();
-                break;
-            case 110:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b3);
-                music.start();
-                break;
-            case 120:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.c3);
-                music.start();
-                break;
-            case 130:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.d3);
-                music.start();
-                break;
-            case 140:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.e3);
-                music.start();
-                break;
-            case 150:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.f3);
-                music.start();
-                break;
-            case 160:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.g3);
-                music.start();
-                break;
-            case 170:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a4);
-                music.start();
-                break;
-            case 180:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b4);
-                music.start();
-            case 190:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
-                music.start();
-                break;
-            case 200:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b3);
-                music.start();
-                break;
-            case 210:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.c3);
-                music.start();
-                break;
-            case 220:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.d3);
-                music.start();
-                break;
-            case 230:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.e3);
-                music.start();
-                break;
-            case 240:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.f3);
-                music.start();
-                break;
-            case 250:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.g3);
-                music.start();
-                break;
-            case 260:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a4);
-                music.start();
-                break;
-            case 270:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b4);
-                music.start();
-            case 280:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
-                music.start();
-                break;
-            case 290:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b3);
-                music.start();
-                break;
-            case 300:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.c3);
-                music.start();
-                break;
-            case 310:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.d3);
-                music.start();
-                break;
-            case 320:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.e3);
-                music.start();
-                break;
-            case 330:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.f3);
-                music.start();
-                break;
-            case 340:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.g3);
-                music.start();
-                break;
-            case 350:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.a4);
-                music.start();
-                break;
-            case 360:
-                music = MediaPlayer.create(SensorActivity.this, R.raw.b4);
-                music.start();
-                break;*/
-            default:
+        if(degree >= 0 && degree <= 20 && !musicLocator.equals(String.valueOf(R.raw.c3))) {
+            changeTone(R.raw.c3);
+            view.setBackgroundColor(Color.parseColor("#e3f2fd"));
         }
+        else if(degree > 20 && degree <= 40 && !musicLocator.equals(String.valueOf(R.raw.d3))) {
+            changeTone(R.raw.d3);
+            view.setBackgroundColor(Color.parseColor("#bbdefb"));
+        }
+        else if(degree > 40 && degree <= 60 && !musicLocator.equals(String.valueOf(R.raw.e3))) {
+            changeTone(R.raw.e3);
+            view.setBackgroundColor(Color.parseColor("#90caf9"));
+        }
+        else if(degree > 60 && degree <=  80 && !musicLocator.equals(String.valueOf(R.raw.f3))) {
+            changeTone(R.raw.f3);
+            view.setBackgroundColor(Color.parseColor("#64b5f6"));
+        }
+        else if(degree > 80 && degree <= 100 && !musicLocator.equals(String.valueOf(R.raw.g3))) {
+            changeTone(R.raw.g3);
+            view.setBackgroundColor(Color.parseColor("#42a5f5"));
+        }
+        else if(degree > 100 && degree <=  120 && !musicLocator.equals(String.valueOf(R.raw.a4))) {
+            changeTone(R.raw.a4);
+            view.setBackgroundColor(Color.parseColor("#2196f3"));
+        }
+        else if(degree > 120 && degree <= 140 && !musicLocator.equals(String.valueOf(R.raw.b4))) {
+            changeTone(R.raw.b4);
+            view.setBackgroundColor(Color.parseColor("#1e88e5"));
+        }
+        else if(degree > 140 && degree <=  160 && !musicLocator.equals(String.valueOf(R.raw.c4))) {
+            changeTone(R.raw.c4);
+            view.setBackgroundColor(Color.parseColor("#1976d2"));
+        }
+        else if(degree > 160 && degree <= 180 && !musicLocator.equals(String.valueOf(R.raw.d4))) {
+            changeTone(R.raw.d4);
+            view.setBackgroundColor(Color.parseColor("#1565c0"));
+        }
+        else if(degree > 180 && degree <= 2000 && !musicLocator.equals(String.valueOf(R.raw.e4))) {
+            changeTone(R.raw.e4);
+            view.setBackgroundColor(Color.parseColor("#0d47a1"));
+        }
+        else if(degree > 200 && degree <= 220 && !musicLocator.equals(String.valueOf(R.raw.f4))) {
+            changeTone(R.raw.f4);
+            view.setBackgroundColor(Color.parseColor("#10451d"));
+        }
+        else if(degree > 220 && degree <=  240 && !musicLocator.equals(String.valueOf(R.raw.g4))) {
+            changeTone(R.raw.g4);
+            view.setBackgroundColor(Color.parseColor("#155d27"));
+        }
+        else if(degree > 240 && degree <= 260 && !musicLocator.equals(String.valueOf(R.raw.a5))) {
+            changeTone(R.raw.a5);
+            view.setBackgroundColor(Color.parseColor("#1a7431"));
+        }
+        else if(degree > 260 && degree <=  280 && !musicLocator.equals(String.valueOf(R.raw.b5))) {
+            changeTone(R.raw.b5);
+            view.setBackgroundColor(Color.parseColor("#208b3a"));
+        }
+        else if(degree > 280 && degree <= 300 && !musicLocator.equals(String.valueOf(R.raw.c5))) {
+            changeTone(R.raw.c5);
+            view.setBackgroundColor(Color.parseColor("#25a244"));
+        }
+        else if(degree > 300 && degree <= 320 && !musicLocator.equals(String.valueOf(R.raw.d5))) {
+            changeTone(R.raw.d5);
+            view.setBackgroundColor(Color.parseColor("#2dc653"));
+        }
+        else if(degree > 320 && degree <= 340 && !musicLocator.equals(String.valueOf(R.raw.e5))) {
+            changeTone(R.raw.e5);
+            view.setBackgroundColor(Color.parseColor("#4ad66d"));
+        }
+        else if(degree > 340 && degree <= 359 && !musicLocator.equals(String.valueOf(R.raw.f5))) {
+            changeTone(R.raw.f5);
+            view.setBackgroundColor(Color.parseColor("#6ede8a"));
+        }
+    }
+    public void changeTone(int id) {
+        musicLocator = String.valueOf(id);
+        music.release();
+        music = MediaPlayer.create(SensorActivity.this, id);
+        music.start();
     }
 }
