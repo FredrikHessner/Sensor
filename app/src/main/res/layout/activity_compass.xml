@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/menu"
-        android:layout_width="149dp"
-        android:layout_height="59dp"
+        android:layout_width="235dp"
+        android:layout_height="56dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"

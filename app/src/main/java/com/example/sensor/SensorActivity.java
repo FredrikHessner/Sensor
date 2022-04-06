@@ -14,11 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
+
 public class SensorActivity extends AppCompatActivity implements SensorEventListener {
     // device sensor manager
     private SensorManager SensorManage;
     private View view;
-    // define the compass picture that9 will be use
+    private DecimalFormat df;
+    // define the compass picture that will be use
     private ImageView compassimage;
     // record the angle turned of the compass picture
     private float DegreeStart = 0f;
@@ -37,6 +40,7 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         // initialize your android device sensor capabilities
         SensorManage = (SensorManager) getSystemService(SENSOR_SERVICE);
         music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
+        df = new DecimalFormat("###.##");
         musicLocator = "";
     }
     @Override
@@ -56,7 +60,7 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     public void onSensorChanged(SensorEvent event) {
         // get angle around the z-axis rotated
         float degree = Math.round(event.values[0]);
-        DegreeTV.setText("Heading: " + degree + " degrees");
+        DegreeTV.setText("Heading: " + df.format(degree) + " degrees");
         // rotation animation - reverse turn degree degrees
         RotateAnimation ra = new RotateAnimation(
                 DegreeStart,
@@ -114,7 +118,7 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
             changeTone(R.raw.d4);
             view.setBackgroundColor(Color.parseColor("#1565c0"));
         }
-        else if(degree > 180 && degree <= 2000 && !musicLocator.equals(String.valueOf(R.raw.e4))) {
+        else if(degree > 180 && degree <= 200 && !musicLocator.equals(String.valueOf(R.raw.e4))) {
             changeTone(R.raw.e4);
             view.setBackgroundColor(Color.parseColor("#0d47a1"));
         }
