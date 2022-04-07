@@ -46,8 +46,8 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
         df = new DecimalFormat("###.##");
         musicLocator = 0;
-        toneList = new Integer[]{R.raw.c3,R.raw.d3,R.raw.e3,R.raw.f3,R.raw.d3,R.raw.e3,R.raw.f3,R.raw.g3,
-                R.raw.a4,R.raw.b4,R.raw.c4,R.raw.d4,R.raw.e4,R.raw.f4,R.raw.g4,R.raw.a5,R.raw.b5,R.raw.c5,R.raw.d5,
+        toneList = new Integer[]{R.raw.c3,R.raw.d3,R.raw.e3,R.raw.f3,R.raw.g3, R.raw.a4,
+                R.raw.b4,R.raw.c4,R.raw.d4,R.raw.e4,R.raw.f4,R.raw.g4,R.raw.a5,R.raw.b5,R.raw.c5,R.raw.d5,
                 R.raw.e5,R.raw.f5};
         colorList = new String[]{"#e3f2fd","#bbdefb","#90caf9", "#64b5f6","#42a5f5","#2196f3",
                 "#1e88e5","#1976d2","#1565c0", "#0d47a1","#10451d","#155d27",
