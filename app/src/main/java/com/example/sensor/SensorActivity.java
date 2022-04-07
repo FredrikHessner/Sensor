@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SensorActivity extends AppCompatActivity implements SensorEventListener {
     // device sensor manager
@@ -26,7 +28,9 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     // record the angle turned of the compass picture
     private float DegreeStart = 0f;
     MediaPlayer music;
-    private String musicLocator;
+    private int musicLocator;
+    Integer[] toneList;
+    String[] colorList;
     TextView DegreeTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,13 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         SensorManage = (SensorManager) getSystemService(SENSOR_SERVICE);
         music = MediaPlayer.create(SensorActivity.this, R.raw.a3);
         df = new DecimalFormat("###.##");
-        musicLocator = "";
+        musicLocator = 0;
+        toneList = new Integer[]{R.raw.c3,R.raw.d3,R.raw.e3,R.raw.f3,R.raw.d3,R.raw.e3,R.raw.f3,R.raw.g3,
+                R.raw.a4,R.raw.b4,R.raw.c4,R.raw.d4,R.raw.e4,R.raw.f4,R.raw.g4,R.raw.a5,R.raw.b5,R.raw.c5,R.raw.d5,
+                R.raw.e5,R.raw.f5};
+        colorList = new String[]{"#e3f2fd","#bbdefb","#90caf9", "#64b5f6","#42a5f5","#2196f3",
+                "#1e88e5","#1976d2","#1565c0", "#0d47a1","#10451d","#155d27",
+                "#1a7431","#208b3a","#25a244", "#2dc653","#4ad66d","#6ede8a"};
     }
     @Override
     protected void onPause() {
@@ -81,82 +91,18 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // not in use
     }
+
     public void tones(float degree) {
-        if(degree >= 0 && degree <= 20 && !musicLocator.equals(String.valueOf(R.raw.c3))) {
-            changeTone(R.raw.c3);
-            view.setBackgroundColor(Color.parseColor("#e3f2fd"));
-        }
-        else if(degree > 20 && degree <= 40 && !musicLocator.equals(String.valueOf(R.raw.d3))) {
-            changeTone(R.raw.d3);
-            view.setBackgroundColor(Color.parseColor("#bbdefb"));
-        }
-        else if(degree > 40 && degree <= 60 && !musicLocator.equals(String.valueOf(R.raw.e3))) {
-            changeTone(R.raw.e3);
-            view.setBackgroundColor(Color.parseColor("#90caf9"));
-        }
-        else if(degree > 60 && degree <=  80 && !musicLocator.equals(String.valueOf(R.raw.f3))) {
-            changeTone(R.raw.f3);
-            view.setBackgroundColor(Color.parseColor("#64b5f6"));
-        }
-        else if(degree > 80 && degree <= 100 && !musicLocator.equals(String.valueOf(R.raw.g3))) {
-            changeTone(R.raw.g3);
-            view.setBackgroundColor(Color.parseColor("#42a5f5"));
-        }
-        else if(degree > 100 && degree <=  120 && !musicLocator.equals(String.valueOf(R.raw.a4))) {
-            changeTone(R.raw.a4);
-            view.setBackgroundColor(Color.parseColor("#2196f3"));
-        }
-        else if(degree > 120 && degree <= 140 && !musicLocator.equals(String.valueOf(R.raw.b4))) {
-            changeTone(R.raw.b4);
-            view.setBackgroundColor(Color.parseColor("#1e88e5"));
-        }
-        else if(degree > 140 && degree <=  160 && !musicLocator.equals(String.valueOf(R.raw.c4))) {
-            changeTone(R.raw.c4);
-            view.setBackgroundColor(Color.parseColor("#1976d2"));
-        }
-        else if(degree > 160 && degree <= 180 && !musicLocator.equals(String.valueOf(R.raw.d4))) {
-            changeTone(R.raw.d4);
-            view.setBackgroundColor(Color.parseColor("#1565c0"));
-        }
-        else if(degree > 180 && degree <= 200 && !musicLocator.equals(String.valueOf(R.raw.e4))) {
-            changeTone(R.raw.e4);
-            view.setBackgroundColor(Color.parseColor("#0d47a1"));
-        }
-        else if(degree > 200 && degree <= 220 && !musicLocator.equals(String.valueOf(R.raw.f4))) {
-            changeTone(R.raw.f4);
-            view.setBackgroundColor(Color.parseColor("#10451d"));
-        }
-        else if(degree > 220 && degree <=  240 && !musicLocator.equals(String.valueOf(R.raw.g4))) {
-            changeTone(R.raw.g4);
-            view.setBackgroundColor(Color.parseColor("#155d27"));
-        }
-        else if(degree > 240 && degree <= 260 && !musicLocator.equals(String.valueOf(R.raw.a5))) {
-            changeTone(R.raw.a5);
-            view.setBackgroundColor(Color.parseColor("#1a7431"));
-        }
-        else if(degree > 260 && degree <=  280 && !musicLocator.equals(String.valueOf(R.raw.b5))) {
-            changeTone(R.raw.b5);
-            view.setBackgroundColor(Color.parseColor("#208b3a"));
-        }
-        else if(degree > 280 && degree <= 300 && !musicLocator.equals(String.valueOf(R.raw.c5))) {
-            changeTone(R.raw.c5);
-            view.setBackgroundColor(Color.parseColor("#25a244"));
-        }
-        else if(degree > 300 && degree <= 320 && !musicLocator.equals(String.valueOf(R.raw.d5))) {
-            changeTone(R.raw.d5);
-            view.setBackgroundColor(Color.parseColor("#2dc653"));
-        }
-        else if(degree > 320 && degree <= 340 && !musicLocator.equals(String.valueOf(R.raw.e5))) {
-            changeTone(R.raw.e5);
-            view.setBackgroundColor(Color.parseColor("#4ad66d"));
-        }
-        else if(degree > 340 && degree <= 359 && !musicLocator.equals(String.valueOf(R.raw.f5))) {
-            changeTone(R.raw.f5);
-            view.setBackgroundColor(Color.parseColor("#6ede8a"));
+        for(int i = 0; i >= 360; i+=20 ){
+            if(degree >= i && degree <= i+20 && musicLocator != i) {
+                musicLocator = i;
+                changeTone(toneList[i/20]);
+                view.setBackgroundColor(Color.parseColor(colorList[i/20]));
+            }
         }
     }
+    
     public void changeTone(int id) {
-        musicLocator = String.valueOf(id);
         music.release();
         music = MediaPlayer.create(SensorActivity.this, id);
         music.start();
