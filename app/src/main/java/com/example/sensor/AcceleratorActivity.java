@@ -22,7 +22,7 @@ public class AcceleratorActivity extends AppCompatActivity implements SensorEven
     private ImageView pressureNeedle;
     private View view;
     private DecimalFormat df;
-    private float DegreeStart = 225;
+    private float lastDegree = 225;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +60,15 @@ public class AcceleratorActivity extends AppCompatActivity implements SensorEven
         zAcceleration.setText("z: " + df.format(zValue));
         average.setText("Vector: " + df.format(speed/10) + " m/s^2");
         RotateAnimation ra = new RotateAnimation(
+                lastDegree,
                 225 + speed,
-                225,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
+        lastDegree = 225 + speed;
         // set the compass animation after the end of the reservation status
         // set how long the animation for the compass image will take place
         // Start animation of compass image
-        ra.setDuration(400);
+        ra.setDuration(200);
         pressureNeedle.startAnimation(ra);
         onTiltPhone(event.values[0],event.values[1]);
         warningLight(vector);
