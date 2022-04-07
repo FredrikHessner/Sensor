@@ -93,15 +93,15 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     }
 
     public void tones(float degree) {
-        for(int i = 0; i >= 360; i+=20 ){
-            if(degree >= i && degree <= i+20 && musicLocator != i) {
+        for(int i = 0; i >= 340; i+=20 ){
+            if(degree > i && degree <= i+20 && musicLocator != i) {
                 musicLocator = i;
                 changeTone(toneList[i/20]);
                 view.setBackgroundColor(Color.parseColor(colorList[i/20]));
             }
         }
     }
-    
+
     public void changeTone(int id) {
         music.release();
         music = MediaPlayer.create(SensorActivity.this, id);
